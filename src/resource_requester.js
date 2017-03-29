@@ -3,15 +3,16 @@
 // Use of this source code is governed by a Apache
 // license that can be found in the LICENSE file.
 
-var BaseObject = require('base_object')
-var CDNRequester = require('./cdn_requester')
-var P2PManager = require('./p2p_manager')
-var Settings = require('./settings')
-var _ = require('underscore')
+import { BaseObject } from 'clappr'
+import CDNRequester from './cdn_requester'
+import P2PManager from './p2p_manager'
+import Settings from './settings'
+import { _ } from 'underscore'
 
-class ResourceRequester extends BaseObject {
+export default class ResourceRequester extends BaseObject {
   constructor(params) {
-    this.cdnRequester = new CDNRequester()
+    super()
+    //this.cdnRequester = new CDNRequester()
     this.p2pManager = new P2PManager(params)
     this.isInitialBuffer = true
     this.decodingError = false
@@ -41,5 +42,3 @@ class ResourceRequester extends BaseObject {
     this.p2pManager.requestResource(this.resource, this.callback, this.requestToCDN.bind(this))
   }
 }
-
-module.exports = ResourceRequester;

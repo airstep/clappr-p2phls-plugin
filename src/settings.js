@@ -3,12 +3,12 @@
 // Use of this source code is governed by a Apache
 // license that can be found in the LICENSE file.
 
-module.exports = {
+let Settings = {
   /* logging
   Turn on/off logging on browser's console on
   initialization. You can always turn on/off
   by pressing ctrl+shift+l on your browser tab. */
-  logging: false,
+  logging: true,
 
   /* maxStorageChunks
   Maximum size of the storage in number of chunks. */
@@ -62,3 +62,6 @@ module.exports = {
   using the cookies received when getting the master playlist. */
   forceAllowCredentials: false
 }
+
+export { Settings }
+

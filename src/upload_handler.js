@@ -3,13 +3,13 @@
 // Use of this source code is governed by a Apache
 // license that can be found in the LICENSE file.
 
-var BaseObject = require('base_object')
-var Settings = require("./settings")
-var _ = require("underscore")
-var log = require('./log').getInstance()
+import { BaseObject, Log as log } from 'clappr'
+import Settings from './settings'
+import { _ } from 'underscore'
 
-class UploadHandler extends BaseObject {
+export default class UploadHandler extends BaseObject {
   constructor() {
+    super()
     this.maxUploadSlots = Settings.maxUploadSlots
     this.slots = {}
     setInterval(this.checkAndFreeSlots.bind(this), 5000)
@@ -43,13 +43,11 @@ class UploadHandler extends BaseObject {
   updateSlotsCount() {
     this.trigger('uploadhandler:update', {occupiedSlots: _.size(this.slots), totalSlots: this.maxUploadSlots})
   }
-}
 
-UploadHandler.getInstance = function() {
-  if (this._instance === undefined) {
-    this._instance = new this()
-  }
-  return this._instance
+  static getInstance() {
+    if (this._instance === undefined) {
+      this._instance = new this()
+    }
+    return this._instance
+  }  
 }
-
-module.exports = UploadHandler

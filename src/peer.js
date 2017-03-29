@@ -2,16 +2,16 @@
 // All rights reserved.
 // Use of this source code is governed by a Apache
 // license that can be found in the LICENSE file.
+import {Log as log, BaseObject} from 'clappr'
 
-var BaseObject = require('base_object');
-var Storage = require('./storage');
-var UploadHandler = require('./upload_handler')
-var PlaybackInfo = require('./playback_info')
-var log = require('./log').getInstance()
-var md5 = require('./md5')
+import Storage from './storage'
+import UploadHandler from './upload_handler'
+import PlaybackInfo from './playback_info'
+import md5 from './md5'
 
-class Peer extends BaseObject {
+export default class Peer extends BaseObject {
   constructor(params) {
+    super()
     this.storage = Storage.getInstance()
     this.ident = params.ident
     this.swarm = params.swarm
@@ -119,5 +119,3 @@ class Peer extends BaseObject {
     return msg
   }
 }
-
-module.exports = Peer

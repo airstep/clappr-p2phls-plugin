@@ -3,17 +3,18 @@
 // Use of this source code is governed by a Apache
 // license that can be found in the LICENSE file.
 
-var BaseObject = require('base_object')
-var BufferedChannel = require('rtc-bufferedchannel')
-var Peer = require('./peer')
-var Settings = require('./settings')
-var _ = require('underscore')
-var log = require('./log').getInstance()
-var SwarmUtils = require('./swarm_utils')
-var PlaybackInfo = require('./playback_info')
+import { BaseObject, Log as log } from 'clappr'
 
-class Swarm extends BaseObject {
+import BufferedChannel from 'rtc-bufferedchannel'
+import Peer from './peer'
+import Settings from './settings'
+import _ from 'underscore'
+import SwarmUtils from './swarm_utils'
+import PlaybackInfo from './playback_info'
+
+export default class Swarm extends BaseObject {
   constructor() {
+    super()
     this.playbackInfo = PlaybackInfo.getInstance()
     this.utils = new SwarmUtils(this)
     this.peers = []
@@ -151,5 +152,3 @@ class Swarm extends BaseObject {
     this.requestFailID = 0
   }
 }
-
-module.exports = Swarm

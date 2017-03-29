@@ -3,12 +3,13 @@
 // Use of this source code is governed by a Apache
 // license that can be found in the LICENSE file.
 
-var BaseObject = require('base_object')
-var Settings = require('./settings')
-var _ = require('underscore')
+import { BaseObject } from 'clappr'
+import Settings from './settings'
+import { _ } from 'underscore'
 
-class PlaybackInfo extends BaseObject {
+export default class PlaybackInfo extends BaseObject {
   constructor() {
+    super()
     this.data = {
       'chunks': {chunksFromCDN: 0, chunksFromP2P: 0, chunksSent: 0},
       'bufferLength': 0,
@@ -117,13 +118,10 @@ class PlaybackInfo extends BaseObject {
     return this.avgSegmentSize
   }
 
-}
-
-PlaybackInfo.getInstance = function() {
-  if (this._instance === undefined) {
-    this._instance = new this()
+  static getInstance() {
+    if (this._instance === undefined) {
+      this._instance = new this()
+    }
+    return this._instance
   }
-  return this._instance
 }
-
-module.exports = PlaybackInfo

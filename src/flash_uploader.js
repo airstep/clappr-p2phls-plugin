@@ -7,7 +7,7 @@
 // of a given chunk in order to avoid overhead or stucks
 // on javascript interpreter.
 
-class FlashUploader {
+export default class FlashUploader {
   constructor() {
     this.MAX_SIZE = 65536
     this.readPosition = 0
@@ -42,5 +42,3 @@ class FlashUploader {
     this.finishCallback()
   }
 }
-
-module.exports = FlashUploader

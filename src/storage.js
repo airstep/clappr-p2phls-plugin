@@ -3,12 +3,11 @@
 // Use of this source code is governed by a Apache
 // license that can be found in the LICENSE file.
 
-var Settings = require("./settings")
-var _ = require("underscore")
-var log = require('./log').getInstance()
+import Settings from './settings'
+import { _ } from 'underscore'
+import { Log as log } from 'clappr'
 
-
-class Storage {
+export default class Storage {
   constructor() {
     this.keys = []
     this.chunks = {}
@@ -50,14 +49,11 @@ class Storage {
     var normalizedKey = key.match(this.CHUNK_REGEX)[1]
     return _.contains(this.keys, normalizedKey)
   }
+
+  static getInstance() {
+    if (this._instance === undefined) {
+      this._instance = new this();
+    }
+    return this._instance;
+  }  
 }
-
-Storage.getInstance = function() {
-  if (this._instance === undefined) {
-    this._instance = new this();
-  }
-  return this._instance;
-}
-
-module.exports = Storage
-

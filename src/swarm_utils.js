@@ -3,12 +3,13 @@
 // Use of this source code is governed by a Apache
 // license that can be found in the LICENSE file.
 
-var BaseObject = require('base_object')
-var _ = require('underscore')
-var Settings = require('./settings')
+import { BaseObject } from 'clappr'
+import { _ } from 'underscore'
+import Settings from './settings'
 
-class SwarmUtils extends BaseObject {
+export default class SwarmUtils extends BaseObject {
   constructor(swarm) {
+    super()
     this.swarm = swarm
   }
 
@@ -49,5 +50,3 @@ class SwarmUtils extends BaseObject {
     return _.first(_.sortBy(this.swarm.peers, function(p) { return p.score }))
   }
 }
-
-module.exports = SwarmUtils

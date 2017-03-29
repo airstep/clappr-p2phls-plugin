@@ -3,19 +3,21 @@
 // Use of this source code is governed by a Apache
 // license that can be found in the LICENSE file.
 
-var BaseObject = require('base_object');
+import { BaseObject, Log as log } from 'clappr'
 
-var QuickConnect = require('rtc-quickconnect');
-var Settings = require("./settings")
-var Swarm = require('./swarm')
-var log = require('./log').getInstance()
-var _ = require('underscore')
+//import { QuickConnect } from 'rtc-quickconnect'
+import { Settings } from './settings'
+import { Swarm } from './swarm'
+import { _ } from 'underscore'
 
-class P2PManager extends BaseObject {
+export default class P2PManager extends BaseObject {
   constructor(params) {
+    super()
     this.connectionSettings = {'room': params.swarm, iceServers: Settings.stunServers, debug: false}
     log.info("P2P active, connected to " + Settings.tracker)
-    var connection = QuickConnect(Settings.tracker, this.connectionSettings)
+    var quickconnect = require('rtc-quickconnect')
+    var connection = quickconnect(Settings.tracker, this.connectionSettings)
+    //var connection = QuickConnect(Settings.tracker, this.connectionSettings)
     this.swarm = new Swarm()
     this.dataChannel = connection.createDataChannel('bemtv')
     this.setupListerners()
@@ -46,5 +48,3 @@ class P2PManager extends BaseObject {
     }
   }
 }
-
-module.exports = P2PManager

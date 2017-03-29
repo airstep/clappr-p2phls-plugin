@@ -3,13 +3,14 @@
 // Use of this source code is governed by Apache
 // license that can be found in the LICENSE file.
 
-var BaseObject = require('base_object')
-var Settings = require('./settings')
-var log = require('./log').getInstance()
+import { BaseObject, Log as log } from 'clappr'
+import Settings from './settings'
 
 class CDNRequester extends BaseObject {
   get name() { return 'CDNRequester' }
+
   constructor() {
+    super()
     this.utils = new Worker(this.getWorkerURL())
     this.utils.onmessage = (e) => this.resourceLoaded(e.data)
   }
@@ -49,5 +50,3 @@ class CDNRequester extends BaseObject {
     }
   }
 }
-
-module.exports = CDNRequester;

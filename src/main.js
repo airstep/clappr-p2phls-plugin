@@ -3,22 +3,18 @@
 // Use of this source code is governed by Apache
 // license that can be found in the LICENSE file.
 
-var Settings = require('./settings')
-var ResourceRequester = require('./resource_requester')
-var UploadHandler = require('./upload_handler')
-var PlaybackInfo = require('./playback_info')
-var AdaptiveStreaming = require('./adaptive_streaming')
-var Storage = require('./storage')
-var FlashUploader = require('./flash_uploader')
-var log = require('./log').getInstance()
-var JST = require('./jst')
-var Browser = require('browser')
-var Styler = require('./styler')
-var HLS = require('hls')
-var version = require('../package.json').version
-var _ = require('underscore')
+import { Log as log, HLS, Browser, Styler } from 'clappr'
 
-class P2PHLS extends HLS {
+import Settings from './settings'
+import ResourceRequester from './resource_requester'
+import UploadHandler from './upload_handler'
+import PlaybackInfo from './playback_info'
+import AdaptiveStreaming from './adaptive_streaming'
+import Storage from './storage'
+import FlashUploader from './flash_uploader'
+import JST from './jst'
+
+export default class P2PHLS extends HLS {
   get name() { return 'p2phls' }
   get tagName() { return 'object' }
   get template() { return JST.p2phls }
@@ -30,12 +26,12 @@ class P2PHLS extends HLS {
   }
 
   constructor(options) {
-    Settings = _.extend(Settings, options.bemtv)
+    super(options)
+    //Settings = _.extend(Settings, options.bemtv)
     this.resourceRequester = new ResourceRequester({swarm: btoa(options.src.split("?")[0]), tracker: options.tracker})
     this.uploadHandler = UploadHandler.getInstance()
     this.playbackInfo = PlaybackInfo.getInstance()
     this.storage = Storage.getInstance()
-    super(options)
     this.swfPath = "http://cdn.clappr.io/bemtv/latest/assets/P2PHLSPlayer.swf"
   }
 
@@ -66,14 +62,13 @@ class P2PHLS extends HLS {
     this.adaptiveStreaming = new AdaptiveStreaming(this)
     this.el.playerSetminBufferLength(6)
     this.el.playerSetlowBufferLength(Settings.lowBufferLength)
-    super()
   }
 
   setPlaybackState(state) {
     if (state === 'PLAYING' && this.resourceRequester.isInitialBuffer) {
       this.resourceRequester.isInitialBuffer = false
     }
-    super(state)
+    //super(state)
   }
 
   onDecodeError() {
@@ -118,7 +113,7 @@ class P2PHLS extends HLS {
   seek(time) {
     this.resourceRequester.onDVR = time !== -1? true: false
     console.log("onDVR", this.resourceRequester.onDVR)
-    super(time)
+    //super(time)
   }
 
   render() {
@@ -131,12 +126,7 @@ class P2PHLS extends HLS {
     this.$el.append(style)
     return this
   }
+  static canPlay(resource) {
+    return !!(window.webkitRTCPeerConnection || window.mozRTCPeerConnection) && !!resource.match(/^http(.*).m3u8/)
+  }
 }
-
-P2PHLS.canPlay = function(resource) {
-  return !!(window.webkitRTCPeerConnection || window.mozRTCPeerConnection) && !!resource.match(/^http(.*).m3u8/)
-}
-
-P2PHLS.version = version
-
-module.exports = window.P2PHLS = P2PHLS;

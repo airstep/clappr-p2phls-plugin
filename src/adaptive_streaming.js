@@ -3,11 +3,11 @@
 // Use of this source code is governed by a Apache
 // license that can be found in the LICENSE file.
 
-var BaseObject = require('base_object')
-var log = require('./log').getInstance()
+import { BaseObject, Log as log } from 'clappr'
 
-class AdaptiveStreaming extends BaseObject {
+export default class AdaptiveStreaming extends BaseObject {
   constructor(main) {
+    super()
     Clappr.Mediator.on(main.uniqueId + ':fragmentloaded', () => this.onFragmentLoaded())
     this.main = main
     this.info = this.main.playbackInfo.data
@@ -44,6 +44,3 @@ class AdaptiveStreaming extends BaseObject {
     this.main.el.globoPlayerSmoothSetLevel(newLevel)
   }
 }
-
-
-module.exports = AdaptiveStreaming
